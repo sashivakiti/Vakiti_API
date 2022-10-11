@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32228.430
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vakiti_API", "Vakiti_API\Vakiti_API.csproj", "{02660446-9C86-466D-8C1F-5F157560542D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02660446-9C86-466D-8C1F-5F157560542D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02660446-9C86-466D-8C1F-5F157560542D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02660446-9C86-466D-8C1F-5F157560542D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02660446-9C86-466D-8C1F-5F157560542D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6296734C-0ED7-4AA8-9CF1-68295B375FC9}
+	EndGlobalSection
+EndGlobal
