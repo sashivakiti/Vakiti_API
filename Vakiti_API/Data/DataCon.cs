@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Vakiti_API.Models;
 
 namespace Vakiti_API.Data
 {
@@ -8,6 +9,8 @@ namespace Vakiti_API.Data
         {
 
         }
+
+        public DbSet<CorsOrigin> corsOrigins { get; set; }
 
         public DbSet<SuperHero> SuperHeroes { get; set; }
     }

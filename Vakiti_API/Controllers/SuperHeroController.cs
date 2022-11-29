@@ -1,80 +1,70 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Vakiti_API.Controllers
 {
+    [DisableCors]
     [Route("api/[controller]")]
     [ApiController]
     public class SuperHeroController : ControllerBase
-    {
-        private static List<SuperHero> heros = new List<SuperHero>
-            {
-                new SuperHero{
-                    Id = 1,
-                    Name ="Sashman",
-                    FirstName ="Sashidhar",
-                    LastName="Vakiti",
-                    Place="Sydney"
-                },
-                new SuperHero{
-                    Id = 2,
-                    Name ="RJ",
-                    FirstName ="Preksha",
-                    LastName="Vakiti",
-                    Place="Sydney"
-                }
-            };
-        public SuperHeroController()
-        {
+    {        
+        private readonly DataCon _dataCon;
 
+        public SuperHeroController(DataCon dataCon)
+        {
+            _dataCon = dataCon;
         }
 
         [HttpGet]
         public async Task<ActionResult<List<SuperHero>>> Get()
         {            
-            return Ok(heros); //return full list of Heros
+            return Ok(await _dataCon.SuperHeroes.ToListAsync()); //return full list of Heros from DB
         }
 
         [HttpGet("{id}")] //We need to add the id as in the paramater for it to work
         public async Task<ActionResult<SuperHero>> Get(int id)
         {
-            var hero = heros.Find(h => h.Id == id);
+            var hero = await _dataCon.SuperHeroes.FindAsync(id);
             if (hero == null)
-                return BadRequest("Hero not found");
+                return BadRequest("Hero not found in DB");
             return Ok(hero);// return only the hero who was found
         }
 
         [HttpPost]
         public async Task<ActionResult<List<SuperHero>>> AddHero([FromBody]SuperHero hero)
         {
-            heros.Add(hero);
-            return Ok(heros);
+            _dataCon.SuperHeroes.Add(hero);
+            await _dataCon.SaveChangesAsync();
+            return Ok(await _dataCon.SuperHeroes.ToListAsync());
         }
 
         [HttpPut]
         public async Task<ActionResult<List<SuperHero>>> UpdateHero([FromBody] SuperHero request)
         {
-            var hero = heros.Find(h => h.Id == request.Id);
-            if (hero == null)
-                return BadRequest("Hero not found");
+            var dbhero = await _dataCon.SuperHeroes.FindAsync(request.Id);
+            if (dbhero == null)
+                return BadRequest("Hero not found in DB");
 
-            hero.Name = request.Name;
-            hero.FirstName = request.FirstName;
-            hero.LastName = request.LastName;
-            hero.Place = request.Place;
+            dbhero.Name = request.Name;
+            dbhero.FirstName = request.FirstName;
+            dbhero.LastName = request.LastName;
+            dbhero.Place = request.Place;
+            await _dataCon.SaveChangesAsync();
 
-            return Ok(heros);//return full list of Heros
+            return Ok(await _dataCon.SuperHeroes.ToListAsync());//return full list of Heros from DB after updating
         }
 
         [HttpDelete("{id}")]
         public async Task<ActionResult<SuperHero>> Delete(int id)
         {
-            var hero = heros.Find(h => h.Id == id);
-            if (hero == null)
-                return BadRequest("Hero not found");
+            var dbhero = await _dataCon.SuperHeroes.FindAsync(id);
+            if (dbhero == null)
+                return BadRequest("Hero not found in DB");
 
-            heros.Remove(hero);//Delete the Hero
-            return Ok(heros);//return full list of Heros
+            _dataCon.SuperHeroes.Remove(dbhero);//Delete the Hero
+            await _dataCon.SaveChangesAsync();
+            return Ok(await _dataCon.SuperHeroes.ToListAsync());//return full list of Heros from DB after deletion
         }
 
     }

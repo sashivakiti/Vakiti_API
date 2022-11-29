@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Vakiti_API.Controllers
 {
+    [EnableCors("CORSpolicy")]
     [Route("api/[controller]")]
     [ApiController]
     public class SuperHeroEntityController : ControllerBase
